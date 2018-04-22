@@ -1,9 +1,18 @@
 import React from 'react';
 
-const Users = () => (
-  <div className="main">
-    Users Page
-  </div>
-);
+class Users extends React.Component {
+  constructor(props){
+    super(props)
+  }
+
+  render(){
+    return(
+      <div>
+
+      </div>
+    )
+  }
+
+}
 
 export default Users;
