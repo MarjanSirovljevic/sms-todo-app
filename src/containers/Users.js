@@ -5,10 +5,16 @@ class Users extends React.Component {
     super(props)
   }
 
+  componentDidMount(){
+    fetch('https://jsonplaceholder.typicode.com/users')
+            .then(res => res.json())
+            .then(json => this.setState({users: json}));
+}
+
   render(){
     return(
       <div>
-
+        
       </div>
     )
   }
