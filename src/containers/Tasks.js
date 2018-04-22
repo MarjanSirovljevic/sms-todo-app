@@ -1,9 +1,9 @@
 import React from 'react';
 
-const AboutUs = () => (
+const Tasks = () => (
   <div className="main">
-    About us Page
+    Tasks Page
   </div>
 );
 
-export default AboutUs;
+export default Tasks;

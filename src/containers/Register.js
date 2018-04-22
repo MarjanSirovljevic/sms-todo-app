@@ -3,7 +3,9 @@ import React from 'react';
 export default class Register extends React.Component {
   render() {
     return (
-      <div>Register Component</div>
+      <div className="main">
+        Register Component
+      </div>
     );
   }
 }
