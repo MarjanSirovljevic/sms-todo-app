@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -17,6 +17,34 @@ const main = {
 };
 
 export default class AppRouter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.authenticate = this.authenticate.bind(this);
+    this.signout = this.signout.bind(this);
+    this.state = {
+      isAuthenticated: false
+    };
+  }
+  componentWillMount() {
+    try {
+      const authenticate = JSON.parse(window.localStorage.getItem('authenticate'));
+      if (authenticate instanceof Object && typeof authenticate.isAuthenticated === 'boolean') {
+        this.setState(() => ({ isAuthenticated: authenticate.isAuthenticated }));
+      } else {
+        const json = JSON.stringify(this.state);
+        window.localStorage.setItem('authenticate', json);
+      }
+    } catch (error) {
+      const json = JSON.stringify(this.state);
+      window.localStorage.setItem('authenticate', json); 
+    }
+  }
+  authenticate() {
+
+  }
+  signout() {
+
+  }
   render() {
     return (
       <div>
@@ -26,11 +54,30 @@ export default class AppRouter extends React.Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/about" component={AboutUs} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/tasks" component={Tasks} />
-              <Route exact path="/users" component={Users} />
-              <Route exact path="/add_user" component={AddUser} />
+              <Route
+                exact
+                path="/login"
+                render={(props) => (
+                  <Login
+                    {...props}
+                    redirectToReferrer={this.state.isAuthenticated}
+                    login={this.authenticate}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/register"
+                render={(props) => (
+                  <Register
+                    {...props}
+                    isAuthenticated={this.state.isAuthenticated}
+                  />
+                )}
+              />
+              <PrivateRoute exact path="/tasks" component={Tasks} redirectToReferrer={this.state.isAuthenticated} />
+              <PrivateRoute exact path="/users" component={Users} redirectToReferrer={this.state.isAuthenticated} />
+              <PrivateRoute exact path="/add_user" component={AddUser} redirectToReferrer={this.state.isAuthenticated} />
               <Route render={() => (
                   <div>
                     404 - Not Found - 
@@ -46,3 +93,17 @@ export default class AppRouter extends React.Component {
     );
   }
 }
+
+const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) => isAuthenticated ?
+      <Component {...props} /> :
+      <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}
+      />
+    }
+  />
+);
