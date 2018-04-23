@@ -14,7 +14,7 @@ export default class Login extends React.Component {
       errorMessage: null,
       userOrEmail: '',
       password: '',
-      users: [],
+      regUsers: [],
       loggedUser: {}
     };
   }
@@ -22,14 +22,14 @@ export default class Login extends React.Component {
     this.setState(() => ({ [key]: value }));
   }
   login() {
-    const { userOrEmail, password, users } = this.state;
+    const { userOrEmail, password, regUsers } = this.state;
     if(userOrEmail === '' || password ===  '') {
       const isValid = false;
       const errorMessage = 'All fields are required';
       this.setState(() => ({ isValid, errorMessage }));
       return;
     }
-    const userMatch = users.filter((user) => {
+    const userMatch = regUsers.filter((user) => {
       return ((user.username === userOrEmail || user.email === userOrEmail) && 
       user.password === password);
     });
@@ -57,9 +57,9 @@ export default class Login extends React.Component {
   }
   componentWillMount() {
     try {
-      const users = JSON.parse(window.localStorage.getItem('users'));
-      if(users && Array.isArray(users)) {
-        this.setState(() => ({ users }));
+      const regUsers = JSON.parse(window.localStorage.getItem('regUsers'));
+      if(regUsers && Array.isArray(regUsers)) {
+        this.setState(() => ({ regUsers }));
       }
     } catch (error) {
       // do nothing
