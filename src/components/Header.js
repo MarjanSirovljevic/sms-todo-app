@@ -8,12 +8,12 @@ const header = {
   zIndex: 1000,
 };
 
-export default class Header extends React.Component {
-  render() {
-    return (
-      <header style={header}>
-        Header
-      </header>
-    );
-  }
-}
+const Header = (props) => {
+  return (
+    <header style={header}>
+      Header
+    </header>
+  );
+};
+
+export default Header;
