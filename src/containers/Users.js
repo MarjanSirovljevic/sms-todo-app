@@ -1,4 +1,7 @@
 import React from 'react';
+import uuid from 'uuid';
+
+import User from '../components/User';
 
 class Users extends React.Component {
   constructor(props){
@@ -26,14 +29,7 @@ render(){
          
         
         {
-          this.state.users.map(
-              (user) =>
-                <tr key={user.id}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{<a href="/link/to/">Details</a>}</td>
-                </tr>
-          )
+          this.state.users.map((user) => <User key={user.id} {...user} />)
         } 
         </tbody>
         </table>}
@@ -43,3 +39,5 @@ render(){
 }
 
 export default Users;
+
+console.log(uuid());
