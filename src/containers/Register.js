@@ -31,7 +31,7 @@ export default class Register extends React.Component {
       password: '',
       passwordConfirmed: '',
       email: '',
-      users: []
+      regUsers: []
     };
   }
   validateUsername(value) {
@@ -51,7 +51,7 @@ export default class Register extends React.Component {
     this.setState(() => ({ [key]: value }));
   }
   register() {
-    const { username, password, passwordConfirmed, email, users } = this.state;
+    const { username, password, passwordConfirmed, email, regUsers } = this.state;
     const [usernameValid, emailValid, passwordValid, passwordChecked] = [
       this.validateUsername(username),
       this.validateEmail(email),
@@ -70,8 +70,8 @@ export default class Register extends React.Component {
       this.setState(() => ({ errorMessage, isValid }));
       return;
     }
-    const usernameExists = users.filter((user) => user.username === username).length > 0;
-    const emailExists = users.filter((user) => user.email === email).length > 0;
+    const usernameExists = regUsers.filter((user) => user.username === username).length > 0;
+    const emailExists = regUsers.filter((user) => user.email === email).length > 0;
     if(usernameExists) {
       const errorMessage = 'This username is already taken!';
       const isValid = false;
@@ -86,7 +86,7 @@ export default class Register extends React.Component {
     }
     const errorMessage = '';
     const isValid = true;
-    const newUser = {
+    const newRegUser = {
       id: uuid(),
       username,
       password,
@@ -95,7 +95,7 @@ export default class Register extends React.Component {
     this.setState((prevState) => ({
       errorMessage,
       isValid,
-      users: [...prevState.users, newUser]
+      regUsers: [...prevState.regUsers, newRegUser]
     }));
     
     //
@@ -109,18 +109,18 @@ export default class Register extends React.Component {
   }
   componentWillMount() {
     try {
-      const users = JSON.parse(window.localStorage.getItem('users'));
-      if(users && Array.isArray(users)) {
-        this.setState(() => ({ users }));
+      const regUsers = JSON.parse(window.localStorage.getItem('regUsers'));
+      if(regUsers && Array.isArray(regUsers)) {
+        this.setState(() => ({ regUsers }));
       }
     } catch (error) {
       // do nothing
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    if(prevState.users.length !== this.state.users.length) {
-      const json = JSON.stringify(this.state.users);
-      localStorage.setItem('users', json);
+    if(prevState.regUsers.length !== this.state.regUsers.length) {
+      const json = JSON.stringify(this.state.regUsers);
+      localStorage.setItem('regUsers', json);
     }
   }
   render() {
