@@ -7,14 +7,31 @@ import Input from '../components/Input';
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
     this.login = this.login.bind(this);
     this.state = {
       isValid: true,
-      errorMessage: null
+      errorMessage: null,
+      userOrEmail: '',
+      password: '',
+      users: []
     };
+  }
+  handleChange(key, value) {
+    this.setState(() => ({ [key]: value }));
   }
   login() {
     console.log('login');
+  }
+  componentWillMount() {
+    try {
+      const users = JSON.parse(window.localStorage.getItem('users'));
+      if(users && Array.isArray(users)) {
+        this.setState(() => ({ users }));
+      }
+    } catch (error) {
+      // do nothing
+    }
   }
   render() {
     if(this.props.redirectToReferrer) {
