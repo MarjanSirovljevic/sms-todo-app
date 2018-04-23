@@ -78,7 +78,7 @@ export default class AppRouter extends React.Component {
                 render={(props) => (
                   <Register
                     {...props}
-                    isAuthenticated={this.state.isAuthenticated}
+                    redirectToReferrer={this.state.isAuthenticated}
                   />
                 )}
               />
