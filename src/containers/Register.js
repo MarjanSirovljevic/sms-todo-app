@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import validator from 'validator';
+import uuid from 'uuid';
 
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -29,7 +30,8 @@ export default class Register extends React.Component {
       username: '',
       password: '',
       passwordConfirmed: '',
-      email: ''
+      email: '',
+      users: []
     };
   }
   validateUsername(value) {
@@ -49,10 +51,77 @@ export default class Register extends React.Component {
     this.setState(() => ({ [key]: value }));
   }
   register() {
-    const { username, password, email } = this.state;
-    console.log('username: ', username);
-    console.log('password: ', password);
-    console.log('email: ', email);
+    const { username, password, passwordConfirmed, email, users } = this.state;
+    const [usernameValid, emailValid, passwordValid, passwordChecked] = [
+      this.validateUsername(username),
+      this.validateEmail(email),
+      this.validatePassword(password),
+      this.validatePasswordConfirmed(passwordConfirmed)
+    ];
+    if (username === '' || password === '' || passwordConfirmed === '' || email === '') {
+      const errorMessage = 'All fields are required';
+      const isValid = false;
+      this.setState(() => ({ errorMessage, isValid }));
+      return;
+    }
+    if ( !usernameValid || !emailValid || !passwordValid || !passwordChecked) {
+      const errorMessage = 'Some fields are not valid';
+      const isValid = false;
+      this.setState(() => ({ errorMessage, isValid }));
+      return;
+    }
+    const usernameExists = users.filter((user) => user.username === username).length > 0;
+    const emailExists = users.filter((user) => user.email === email).length > 0;
+    if(usernameExists) {
+      const errorMessage = 'This username is already taken!';
+      const isValid = false;
+      this.setState(() => ({ errorMessage, isValid }));
+      return;
+    }
+    if(emailExists) {
+      const errorMessage = 'This email is already taken!';
+      const isValid = false;
+      this.setState(() => ({ errorMessage, isValid }));
+      return;
+    }
+    const errorMessage = '';
+    const isValid = true;
+    const newUser = {
+      id: uuid(),
+      username,
+      password,
+      email
+    };
+    this.setState((prevState) => ({
+      errorMessage,
+      isValid,
+      users: [...prevState.users, newUser]
+    }));
+    
+    //
+    // setTimout is important here because if we immediately redirect to '/login' 
+    // the asynchronious setState will cause the componentDidUpdate method not to trigger at all
+    // 
+    window.setTimeout(() => {
+      alert('You have successfully registered !!!');
+      this.props.history.push('/login');
+    }, 500);
+  }
+  componentWillMount() {
+    try {
+      const users = JSON.parse(window.localStorage.getItem('users'));
+      if(users && Array.isArray(users)) {
+        this.setState(() => ({ users }));
+      }
+    } catch (error) {
+      // do nothing
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.users.length !== this.state.users.length) {
+      const json = JSON.stringify(this.state.users);
+      localStorage.setItem('users', json);
+    }
   }
   render() {
     if(this.props.redirectToReferrer) {
