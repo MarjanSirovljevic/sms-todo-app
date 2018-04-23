@@ -129,7 +129,7 @@ export default class Register extends React.Component {
     }
     else {
       return (
-        <div className="main" style={{marginTop: '50px'}}>
+        <div className="main">
           <h1>Register Page</h1>
             {!this.state.isValid && <p style={{color: 'red'}}>{this.state.errorMessage}</p>}
           <Input
