@@ -18,6 +18,12 @@ const nav = {
   padding: '10px'
 };
 
+const loggedUserStyle = {
+  color: 'coral',
+  fontWeight: 'bold',
+  marginRight: '25px'
+};
+
 const Header = withRouter((props) => {
   const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));
   const { redirectToReferrer } = props;
@@ -41,7 +47,7 @@ const Header = withRouter((props) => {
         <Link to="/tasks">Tasks</Link>
         <span style={{margin: '0 10px'}}>/</span>
         <Link to="/users">Users</Link>
-        <span style={{marginLeft: '25px'}}>Welcome, <span style={{color: 'coral', fontWeight: 'bold', marginRight: '25px'}}>{loggedUser.username}</span></span>
+        <span style={{marginLeft: '25px'}}>Welcome, <span style={loggedUserStyle}>{loggedUser.username}</span></span>
         <a onClick={() => {
           props.handleSignOut(() => {
             const authenticate = JSON.stringify({
