@@ -14,14 +14,46 @@ export default class Login extends React.Component {
       errorMessage: null,
       userOrEmail: '',
       password: '',
-      users: []
+      users: [],
+      loggedUser: {}
     };
   }
   handleChange(key, value) {
     this.setState(() => ({ [key]: value }));
   }
   login() {
-    console.log('login');
+    const { userOrEmail, password, users } = this.state;
+    if(userOrEmail === '' || password ===  '') {
+      const isValid = false;
+      const errorMessage = 'All fields are required';
+      this.setState(() => ({ isValid, errorMessage }));
+      return;
+    }
+    const userMatch = users.filter((user) => {
+      return ((user.username === userOrEmail || user.email === userOrEmail) && 
+      user.password === password);
+    });
+    const correctUserData = userMatch.length > 0;
+    if(correctUserData === false) {
+      const isValid = false;
+      const errorMessage = 'Invalid username(email) or password';
+      this.setState(() => ({ isValid, errorMessage }));
+      return;
+    }
+
+    const isValid = true;
+    const errorMessage = null;
+    const loggedUser = userMatch[0];
+    this.setState((prevState) => ({
+      isValid,
+      errorMessage,
+      loggedUser
+    }));
+    
+    setTimeout(() => {
+      alert('You have successfully logged in !!!');
+      this.props.login();
+    }, 500);
   }
   componentWillMount() {
     try {
@@ -33,9 +65,15 @@ export default class Login extends React.Component {
       // do nothing
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    if(Object.keys(prevState.loggedUser).length !== Object.keys(this.state.loggedUser).length) {
+      const json = JSON.stringify(this.state.loggedUser);
+      localStorage.setItem('loggedUser', json);
+    }
+  }
   render() {
     if(this.props.redirectToReferrer) {
-      return <Redirect to="/"/>
+      return <Redirect to="/tasks"/>
     }
     else {
       return (
