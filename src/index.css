@@ -7,3 +7,11 @@ body {
 .main {
   margin-bottom: 15px;
 }
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  cursor: pointer;
+}
