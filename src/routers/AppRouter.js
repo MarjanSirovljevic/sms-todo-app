@@ -40,17 +40,24 @@ export default class AppRouter extends React.Component {
     }
   }
   authenticate() {
-
+    const authenticate = JSON.stringify({ isAuthenticated: true });
+    window.localStorage.setItem('authenticate', authenticate);
+    this.setState(() => ({ isAuthenticated: true }));
   }
-  signout() {
-
+  signout(redirectionFn) {
+    this.setState(() => ({ isAuthenticated: false }));
+    // this function is going to change local storage settings
+    redirectionFn();
   }
   render() {
     return (
       <div>
         <Router>
           <div style={main}>
-            <Header />
+            <Header
+              redirectToReferrer={this.state.isAuthenticated}
+              handleSignOut={this.signout}
+            />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/about" component={AboutUs} />
@@ -75,9 +82,9 @@ export default class AppRouter extends React.Component {
                   />
                 )}
               />
-              <PrivateRoute exact path="/tasks" component={Tasks} redirectToReferrer={this.state.isAuthenticated} />
-              <PrivateRoute exact path="/users" component={Users} redirectToReferrer={this.state.isAuthenticated} />
-              <PrivateRoute exact path="/add_user" component={AddUser} redirectToReferrer={this.state.isAuthenticated} />
+              <PrivateRoute exact path="/tasks" component={Tasks} isAuthenticated={this.state.isAuthenticated} />
+              <PrivateRoute exact path="/users" component={Users} isAuthenticated={this.state.isAuthenticated} />
+              <PrivateRoute exact path="/add_user" component={AddUser} isAuthenticated={this.state.isAuthenticated} />
               <Route render={() => (
                   <div>
                     404 - Not Found - 
