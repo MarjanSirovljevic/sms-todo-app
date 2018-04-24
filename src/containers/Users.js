@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Button from '../components/Button';
 
@@ -9,12 +10,20 @@ export default class Users extends React.Component {
   constructor(props){
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.state = {
       users: [],
     }
   }
   handleClick() {
     this.props.history.push('/add_user');
+  }
+  handleRemove(id) {
+    this.setState((prevState) => ({
+      users: prevState.users.filter((user) => {
+        return user.id !== id;
+      })
+    }));
   }
   componentWillMount() {
     try {
@@ -57,11 +66,18 @@ export default class Users extends React.Component {
               <th style={cellStyleTH}>Full name</th>
               <th style={cellStyleTH}>Email</th> 
               <th style={cellStyleTH}>User Details</th>
+              <th style={cellStyleTH}>Remove User</th>
             </tr>
           </thead>
           <tbody>
             {
-              this.state.users.map((user) => <User key={user.id} {...user} />)
+              this.state.users.map((user) => (
+                <User
+                  {...user}
+                  key={user.id}
+                  handleRemove={this.handleRemove}
+                />
+              ))
             } 
           </tbody>
         </table>
@@ -73,13 +89,19 @@ export default class Users extends React.Component {
 
 const User = (props) => {
   console.log(props);
-  console.log(typeof props.id)
+  // console.log(typeof props.id)
   return (
       <tr>
           <td style={cellStyleTD}>{props.name}</td>
           <td style={cellStyleTD}>{props.email}</td>
           <td style={cellStyleTD}>
-              <a href="http://b92.net">Details</a>
+            <Link to={`/user/${props.id}`}>Details</Link>
+          </td>
+          <td style={cellStyleTD}>
+          <a onClick={() => {
+            const id = props.id;
+            props.handleRemove(id);
+          }}>Remove</a>
           </td>
       </tr>
   );
