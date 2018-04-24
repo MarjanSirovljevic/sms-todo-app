@@ -28,6 +28,11 @@ export default class AddUser extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { name, username, email, phone, website, street, suite, city, zipcode } = this.state;
+    if(!name || !username || !email) {
+      const errorMessage = "All required fields must contain some data";
+      this.setState(() => ({ errorMessage }));
+      return;
+    }
     const newUser = {
       id: uuid(),
       name,
@@ -51,7 +56,12 @@ export default class AddUser extends React.Component {
         bs: null
       }
     };
-    console.log(newUser);
+    this.setState((prevState) => ({
+      users: [...prevState.users, newUser]
+    }));
+    setTimeout(() => {
+      this.props.history.push('/users');
+    }, 250);
   }
   componentWillMount() {
     try {
@@ -160,6 +170,7 @@ export default class AddUser extends React.Component {
           </div>
           <hr />
           <input type="submit" value="Add new user"/>
+          {this.state.errorMessage && <p style={{color: 'red'}}>{this.state.errorMessage}</p>}
         </form>
       </div>
     );
