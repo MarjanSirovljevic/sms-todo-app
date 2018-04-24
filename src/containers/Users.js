@@ -14,7 +14,7 @@ export default class Users extends React.Component {
     }
   }
   handleClick() {
-    console.log('add new user');
+    this.props.history.push('/add_user');
   }
   componentWillMount() {
     try {
@@ -47,6 +47,7 @@ export default class Users extends React.Component {
     }
   }
   render(){
+    // console.log(this.props);
     return(
       <div style={{margin: '20px auto'}}>
         <h1>Users List</h1>
