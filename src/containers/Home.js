@@ -13,6 +13,16 @@ const Home = () => (
            Also, individual tasks can be easily distributed to the desired users
            depending on the need.</p>
         <br/>
+      <h2>Why use SMS to-do app?</h2>
+        <p>One of the main benefits of using this application is a good organization.
+           Seeing a clear outline of your completed and uncompleted tasks will help you
+           feel organized and stay mentally focused. Having a list of all your tasks will
+           allow you to sit down and make a plan. As you cross items off your to-do list,
+           you'll feel a sense of progress and accomplishment.
+           The affirmation that you are making progress will help motivate you to keep
+           moving forward rather than feeling overwhelmed.
+        </p>
+    
     </div>
 );
 
