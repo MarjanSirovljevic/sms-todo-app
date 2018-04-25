@@ -37,8 +37,6 @@ const AboutUs = () => (
     <Details src={bojana} name="Bojana Markovic" email="bojana.markovic2412@gmail.com" />
     <Details src={vladan} name="Vladan Slijepcevic" email="10vladan@gmail.com" />
     <Details src={marjan} name="Marjan Sirovljevic" email="marjansirovljevic@gmail.com" />
-
-    
   </div>
 );
 
