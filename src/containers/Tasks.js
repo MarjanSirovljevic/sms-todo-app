@@ -26,9 +26,11 @@ export default class Tasks extends React.Component {
       fetch('https://jsonplaceholder.typicode.com/todos')
       .then(response => response.json())
       .then(json => {
-        const reducedTodos = json.filter((todo, index) => {
-          return  index % 10 === 0;
+        const usersList = this.state.users.map((user) => user.id);
+        const existingTodos = json.filter((todo) => {
+          return usersList.indexOf(todo.userId.toString()) >= 0;
         });
+        const reducedTodos = existingTodos.filter((todo, index) => index % 11 === 0);
         const todos = reducedTodos.map((todo) => {
           return {...todo, userId: todo.userId.toString(), id: todo.id.toString()}
         });
@@ -46,9 +48,50 @@ export default class Tasks extends React.Component {
   render() {
     console.log(this.state.todos);
     return (
-      <div className="main">
-        Tasks Page TEST
+      <div className="main" style={{width: '70%', margin: '20px auto'}}>
+        <div style={{marginBottom: '100px'}}>
+          <h3>Todo tasks</h3>
+          <hr />
+          <table>
+            <tbody>
+              {
+                this.state.todos.filter((todo) => todo.completed).map((todo) => {
+                  return <Task key={todo.id} title={todo.title} user={todo.userId} />;
+                })
+              }
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3>Completed tasks</h3>
+          <hr />
+          <table>
+            <tbody>
+              {
+                this.state.todos.filter((todo) => !todo.completed).map((todo) => {
+
+                  return <Task key={todo.id} title={todo.title} user={todo.userId} />;
+                })
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
 }
+
+
+const Task = (props) => {
+  console.log(props);
+  return (
+    <tr>
+      <td>
+        <a style={{width: '20px', height: '20px', textDecoration: 'none', border: '1px solid green', display: 'inline-block'}}>+</a>
+        <a style={{width: '20px', height: '20px', textDecoration: 'none', border: '1px solid green', display: 'inline-block'}}>-</a>
+      </td>
+      <td>{props.title}</td>
+      <td>{props.user}</td>
+    </tr>
+  );
+};

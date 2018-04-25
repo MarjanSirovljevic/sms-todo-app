@@ -19,6 +19,12 @@ export default class Users extends React.Component {
     this.props.history.push('/add_user');
   }
   handleRemove(id) {
+    // update the todos list in localStorage first
+    const todos = JSON.parse(window.localStorage.getItem('todos'));
+    if (todos && todos.length > 0) {
+      const updatedTodoList = todos.filter((todo) => todo.userId !== id);
+      window.localStorage.setItem('todos', JSON.stringify(updatedTodoList));
+    }
     this.setState((prevState) => ({
       users: prevState.users.filter((user) => {
         return user.id !== id;
