@@ -49,10 +49,18 @@ const button = {
 export default class Tasks extends React.Component {
   constructor(props) {
     super(props);
+    this.handleCompletedTask = this.handleCompletedTask.bind(this);
+    this.handleRemovedTask = this.handleRemovedTask.bind(this);
     this.state = {
       todos: [],
       users: []
     };
+  }
+  handleCompletedTask(taskId) {
+    console.log('task completed - ', taskId);
+  }
+  handleRemovedTask(taskId) {
+    console.log('task removed - ', taskId);
   }
   componentWillMount() {
     try {
@@ -92,7 +100,6 @@ export default class Tasks extends React.Component {
     }
   }
   render() {
-    // console.log(this.state.todos);
     return (
       <div className="main" style={{width: '85%', margin: '20px auto'}}>
         <div style={{marginBottom: '50px'}}>
@@ -102,7 +109,17 @@ export default class Tasks extends React.Component {
             <tbody>
               {
                 this.state.todos.filter((todo) => todo.completed).map((todo) => {
-                  return <TaskInProgress key={todo.id} title={todo.title} user={todo.userId} users={this.state.users} />;
+                  return (
+                    <TaskInProgress
+                      key={todo.id}
+                      taskId={todo.id}
+                      title={todo.title} 
+                      user={todo.userId} 
+                      users={this.state.users}
+                      handleCompletedTask={this.handleCompletedTask}
+                      handleRemovedTask={this.handleRemovedTask}
+                    />
+                  );
                 })
               }
               <tr>
@@ -123,7 +140,16 @@ export default class Tasks extends React.Component {
             <tbody>
               {
                 this.state.todos.filter((todo) => !todo.completed).map((todo) => {
-                  return <TaskCompleted key={todo.id} title={todo.title} user={todo.userId} users={this.state.users} />;
+                  return (
+                    <TaskCompleted 
+                      key={todo.id}
+                      taskId={todo.id}
+                      title={todo.title} 
+                      user={todo.userId} 
+                      users={this.state.users}
+                      handleRemovedTask={this.handleRemovedTask}
+                    />
+                  );
                 })
               }
             </tbody>
@@ -135,15 +161,17 @@ export default class Tasks extends React.Component {
 }
 
 const TaskInProgress = (props) => {
-  // console.log(props);
   const selectedUser = props.users.filter((user) => user.id === props.user)[0].name;
-  // console.log(selectedUser);
   return (
     <tr style={tableRow}>
       <td style={td1}>
-        <a style={link}><span style={completed}>+</span></a>
+        <a style={link} onClick={() => props.handleCompletedTask(props.taskId)}>
+          <span style={completed}>+</span>
+        </a>
         <span style={{width: '10px', display: 'inline-block'}}></span>
-        <a style={link}><span style={remove}>-</span></a>
+        <a style={link} onClick={() => props.handleRemovedTask(props.taskId)}>
+          <span style={remove}>-</span>
+        </a>
       </td>
       <td style={td2}>{props.title}</td>
       <td style={td3}>
@@ -165,7 +193,9 @@ const TaskCompleted = (props) => {
   return (
     <tr style={tableRow}>
       <td style={td1}>
-        <a style={link}><span style={remove}>-</span></a>
+        <a style={link} onClick={() => props.handleRemovedTask(props.taskId)}>
+          <span style={remove}>-</span>
+        </a>
       </td>
       <td style={td2}>{props.title}</td>
       <td style={td3}>{selectedUser}</td>
