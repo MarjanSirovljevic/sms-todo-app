@@ -6,11 +6,15 @@ const footer = {
   position: 'fixed',
   bottom: 0,
   zIndex: 1000,
+  textAlign: 'center',
+  padding: '5px 0'
 };
 
 const Footer = () => (
   <footer style={footer}>
-    Footer Component
+    <div>Created by - SMS Team</div>
+    <div>PZORG - 2018</div>
+    <a href="#top">Go Top</a>
   </footer>
 );
 
