@@ -62,7 +62,7 @@ const Header = withRouter((props) => {
     );
   }
   return (
-    <header style={header}>
+    <header id="top" style={header}>
       <div style={logo}>
         <Link to="/">Home</Link>
       </div>
