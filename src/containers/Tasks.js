@@ -51,16 +51,32 @@ export default class Tasks extends React.Component {
     super(props);
     this.handleCompletedTask = this.handleCompletedTask.bind(this);
     this.handleRemovedTask = this.handleRemovedTask.bind(this);
+    this.handleAddTask = this.handleAddTask.bind(this);
     this.state = {
       todos: [],
       users: []
     };
   }
   handleCompletedTask(taskId) {
-    console.log('task completed - ', taskId);
+    // console.log('task completed - ', taskId);
+    this.setState((prevState) => ({
+      todos: prevState.todos.map((todo) => {
+        if (todo.id === taskId) {
+          return {...todo, completed: true}
+        } else {
+          return todo
+        }
+      })
+    }));
   }
   handleRemovedTask(taskId) {
-    console.log('task removed - ', taskId);
+    // console.log('task removed - ', taskId);
+    this.setState((prevState) => ({
+      todos: prevState.todos.filter((todo) => todo.id !== taskId)
+    }));
+  }
+  handleAddTask() {
+    console.log('add new task');
   }
   componentWillMount() {
     try {
@@ -94,7 +110,7 @@ export default class Tasks extends React.Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-    if(prevState.todos.length !== this.state.todos.length) {
+    if(JSON.stringify(prevState.todos) !== JSON.stringify(this.state.todos.length)) {
       const json = JSON.stringify(this.state.todos);
       localStorage.setItem('todos', json);
     }
@@ -108,7 +124,7 @@ export default class Tasks extends React.Component {
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
             <tbody>
               {
-                this.state.todos.filter((todo) => todo.completed).map((todo) => {
+                this.state.todos.filter((todo) => !todo.completed).map((todo) => {
                   return (
                     <TaskInProgress
                       key={todo.id}
@@ -124,7 +140,7 @@ export default class Tasks extends React.Component {
               }
               <tr>
                 <td style={td1}>
-                  <button style={button}>New Task</button>
+                  <button style={button} onClick={this.handleAddTask}>New Task</button>
                 </td>
                 <td></td>
                 <td></td>
@@ -139,7 +155,7 @@ export default class Tasks extends React.Component {
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
             <tbody>
               {
-                this.state.todos.filter((todo) => !todo.completed).map((todo) => {
+                this.state.todos.filter((todo) => todo.completed).map((todo) => {
                   return (
                     <TaskCompleted 
                       key={todo.id}
