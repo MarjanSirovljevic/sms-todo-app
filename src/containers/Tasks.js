@@ -1,4 +1,50 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+const link = {
+  textAlign: 'center',
+  textDecoration: 'none'
+};
+const completed = {
+  width: '20px',
+  color: 'green',
+  fontWeight: 'bold',
+  display: 'inline-block',
+  background: 'lightgrey'
+};
+const remove = {
+  width:'20px',
+  color: 'red',
+  fontWeight: 'bold',
+  display: 'inline-block',
+  background: 'lightgrey'
+};
+const tableRow = {
+  borderBottom: '1px dotted grey',
+  height: '40px'
+};
+const td1 = {
+  padding: '6px 0',
+  textAlign: 'center',
+  width: '75px'
+};
+const td2 = {
+  padding: '6px'
+};
+const td3 = {
+  padding: '6px',
+  width: '200px'
+};
+const td4 = {
+  padding: '6px 0',
+  textAlign: 'center',
+  width: '65px'
+};
+const button = {
+  background: 'white',
+  padding: '6px',
+  border: '1px solid green'
+};
 
 export default class Tasks extends React.Component {
   constructor(props) {
@@ -46,19 +92,27 @@ export default class Tasks extends React.Component {
     }
   }
   render() {
-    console.log(this.state.todos);
+    // console.log(this.state.todos);
     return (
-      <div className="main" style={{width: '70%', margin: '20px auto'}}>
+      <div className="main" style={{width: '85%', margin: '20px auto'}}>
         <div style={{marginBottom: '100px'}}>
-          <h3>Todo tasks</h3>
-          <hr />
-          <table>
+          <h3 style={{marginBottom: '5px'}}>Todo tasks</h3>
+          <hr style={{marginBottom: 0}} />
+          <table style={{width: '100%', borderCollapse: 'collapse'}}>
             <tbody>
               {
                 this.state.todos.filter((todo) => todo.completed).map((todo) => {
-                  return <Task key={todo.id} title={todo.title} user={todo.userId} />;
+                  return <TaskInProgress key={todo.id} title={todo.title} user={todo.userId} users={this.state.users} />;
                 })
               }
+              <tr>
+                <td style={td1}>
+                  <button style={button}>New Task</button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -69,8 +123,7 @@ export default class Tasks extends React.Component {
             <tbody>
               {
                 this.state.todos.filter((todo) => !todo.completed).map((todo) => {
-
-                  return <Task key={todo.id} title={todo.title} user={todo.userId} />;
+                  return <TaskCompleted key={todo.id} title={todo.title} user={todo.userId} />;
                 })
               }
             </tbody>
@@ -81,14 +134,39 @@ export default class Tasks extends React.Component {
   }
 }
 
+const TaskInProgress = (props) => {
+  // console.log(props);
+  const selectedUser = props.users.filter((user) => user.id === props.user)[0].name;
+  // console.log(selectedUser);
+  return (
+    <tr style={tableRow}>
+      <td style={td1}>
+        <a style={link}><span style={completed}>+</span></a>
+        <span style={{width: '10px', display: 'inline-block'}}></span>
+        <a style={link}><span style={remove}>-</span></a>
+      </td>
+      <td style={td2}>{props.title}</td>
+      <td style={td3}>
+        <Link to={`/user/${props.user}`}>
+          {selectedUser}
+        </Link>
+      </td>
+      <td style={td4}>
+        <a onClick={() => {
+          console.log('edit');
+        }}>Edit</a>
+      </td>
+    </tr>
+  );
+};
 
-const Task = (props) => {
-  console.log(props);
+const TaskCompleted = (props) => {
+  // console.log(props);
   return (
     <tr>
       <td>
-        <a style={{width: '20px', height: '20px', textDecoration: 'none', border: '1px solid green', display: 'inline-block'}}>+</a>
-        <a style={{width: '20px', height: '20px', textDecoration: 'none', border: '1px solid green', display: 'inline-block'}}>-</a>
+        <a style={link}><span style={completed}>+</span></a>
+        <a style={link}><span style={remove}>-</span></a>
       </td>
       <td>{props.title}</td>
       <td>{props.user}</td>

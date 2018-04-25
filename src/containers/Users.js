@@ -104,10 +104,10 @@ const User = (props) => {
             <Link to={`/user/${props.id}`}>Details</Link>
           </td>
           <td style={cellStyleTD}>
-          <a onClick={() => {
-            const id = props.id;
-            props.handleRemove(id);
-          }}>Remove</a>
+            <a onClick={() => {
+              const id = props.id;
+              props.handleRemove(id);
+            }}>Remove</a>
           </td>
       </tr>
   );
