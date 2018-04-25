@@ -95,7 +95,7 @@ export default class Tasks extends React.Component {
     // console.log(this.state.todos);
     return (
       <div className="main" style={{width: '85%', margin: '20px auto'}}>
-        <div style={{marginBottom: '100px'}}>
+        <div style={{marginBottom: '50px'}}>
           <h3 style={{marginBottom: '5px'}}>Todo tasks</h3>
           <hr style={{marginBottom: 0}} />
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
@@ -117,13 +117,13 @@ export default class Tasks extends React.Component {
           </table>
         </div>
         <div>
-          <h3>Completed tasks</h3>
-          <hr />
-          <table>
+          <h3 style={{marginBottom: '5px'}}>Completed tasks</h3>
+          <hr style={{marginBottom: 0}} />
+          <table style={{width: '100%', borderCollapse: 'collapse'}}>
             <tbody>
               {
                 this.state.todos.filter((todo) => !todo.completed).map((todo) => {
-                  return <TaskCompleted key={todo.id} title={todo.title} user={todo.userId} />;
+                  return <TaskCompleted key={todo.id} title={todo.title} user={todo.userId} users={this.state.users} />;
                 })
               }
             </tbody>
@@ -161,15 +161,15 @@ const TaskInProgress = (props) => {
 };
 
 const TaskCompleted = (props) => {
-  // console.log(props);
+  const selectedUser = props.users.filter((user) => user.id === props.user)[0].name;
   return (
-    <tr>
-      <td>
-        <a style={link}><span style={completed}>+</span></a>
+    <tr style={tableRow}>
+      <td style={td1}>
         <a style={link}><span style={remove}>-</span></a>
       </td>
-      <td>{props.title}</td>
-      <td>{props.user}</td>
+      <td style={td2}>{props.title}</td>
+      <td style={td3}>{selectedUser}</td>
+      <td style={td4}></td>
     </tr>
   );
 };
