@@ -10,6 +10,7 @@ import Register from '../containers/Register';
 import Tasks from '../containers/Tasks';
 import Users from '../containers/Users';
 import AddUser from '../containers/AddUser';
+import UserDetails from '../containers/UserDetails';
 
 const main = {
   display: 'flex',
@@ -83,6 +84,7 @@ export default class AppRouter extends React.Component {
                 )}
               />
               <PrivateRoute exact path="/tasks" component={Tasks} isAuthenticated={this.state.isAuthenticated} />
+              <PrivateRoute exact path="/user/:id" component={UserDetails} isAuthenticated={this.state.isAuthenticated} />
               <PrivateRoute exact path="/users" component={Users} isAuthenticated={this.state.isAuthenticated} />
               <PrivateRoute exact path="/add_user" component={AddUser} isAuthenticated={this.state.isAuthenticated} />
               <Route render={() => (
