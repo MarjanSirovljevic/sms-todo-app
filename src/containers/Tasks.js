@@ -1,23 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import uuid from 'uuid';
 
-const link = {
-  textAlign: 'center',
-  textDecoration: 'none'
-};
-const completed = {
-  width: '20px',
-  color: 'green',
-  fontWeight: 'bold',
-  display: 'inline-block',
-  background: 'lightgrey'
-};
-const remove = {
-  width:'20px',
-  color: 'red',
-  fontWeight: 'bold',
-  display: 'inline-block',
-  background: 'lightgrey'
+import TaskCompleted from '../components/TaskCompleted';
+import TaskInProgress from '../components/TaskInProgress';
+
+const mainDiv = {
+  width: '85%', 
+  margin: '20px auto'
 };
 const tableRow = {
   borderBottom: '1px dotted grey',
@@ -28,22 +17,10 @@ const td1 = {
   textAlign: 'center',
   width: '75px'
 };
-const td2 = {
-  padding: '6px'
-};
-const td3 = {
-  padding: '6px',
-  width: '200px'
-};
 const td4 = {
   padding: '6px 0',
   textAlign: 'center',
   width: '65px'
-};
-const button = {
-  background: 'white',
-  padding: '6px',
-  border: '1px solid green'
 };
 
 export default class Tasks extends React.Component {
@@ -51,14 +28,21 @@ export default class Tasks extends React.Component {
     super(props);
     this.handleCompletedTask = this.handleCompletedTask.bind(this);
     this.handleRemovedTask = this.handleRemovedTask.bind(this);
+    this.handleEditTask = this.handleEditTask.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleDescription = this.handleDescription.bind(this);
+    this.handleSaveTask = this.handleSaveTask.bind(this);
     this.state = {
       todos: [],
-      users: []
+      users: [],
+      addTaskMode: false,
+      description: '',
+      selectedUser: ''
     };
   }
   handleCompletedTask(taskId) {
-    // console.log('task completed - ', taskId);
     this.setState((prevState) => ({
       todos: prevState.todos.map((todo) => {
         if (todo.id === taskId) {
@@ -70,13 +54,56 @@ export default class Tasks extends React.Component {
     }));
   }
   handleRemovedTask(taskId) {
-    // console.log('task removed - ', taskId);
     this.setState((prevState) => ({
       todos: prevState.todos.filter((todo) => todo.id !== taskId)
     }));
   }
+  handleEditTask(modifiedTask) {
+    this.setState((prevState) => ({
+      todos: prevState.todos.map((todo) => {
+        if(todo.id === modifiedTask.id) {
+          return {...todo, ...modifiedTask};
+        } else {
+          return todo;
+        }
+      }),
+    }));
+  }
   handleAddTask() {
-    console.log('add new task');
+    this.setState(() => ({addTaskMode: true}));
+  }
+  handleCancel() {
+    this.setState(() => ({
+      addTaskMode: false,
+      description: '',
+      selectedUser: ''
+    }));
+  }
+  handleDescription(e) {
+    const description = e.target.value;
+    this.setState(() => ({ description }));
+  }
+  handleSelectChange(e) {
+    const selectedUser = e.target.value;
+    this.setState(() => ({ selectedUser }));
+  }
+  handleSaveTask() {
+    const { description, selectedUser } = this.state;
+    if(!description || !selectedUser) { return; }
+    const matchingUser = this.state.users.filter((user) => user.name === selectedUser)[0];
+    const selectedUserId = matchingUser.id;
+    const newTask = {
+      completed: false,
+      id: uuid(),
+      title: description,
+      userId: selectedUserId
+    };
+    this.setState((prevState) => ({
+      todos: [...prevState.todos, newTask],
+      addTaskMode: true,
+      description: '',
+      selectedUser: ''
+    }));
   }
   componentWillMount() {
     try {
@@ -100,7 +127,7 @@ export default class Tasks extends React.Component {
         const existingTodos = json.filter((todo) => {
           return usersList.indexOf(todo.userId.toString()) >= 0;
         });
-        const reducedTodos = existingTodos.filter((todo, index) => index % 11 === 0);
+        const reducedTodos = existingTodos.filter((todo, index) => index % 5 === 0);
         const todos = reducedTodos.map((todo) => {
           return {...todo, userId: todo.userId.toString(), id: todo.id.toString()}
         });
@@ -116,8 +143,44 @@ export default class Tasks extends React.Component {
     }
   }
   render() {
+    const addTask = !this.state.addTaskMode ?
+    (
+      <tr style={tableRow}>
+        <td style={td1}>
+          <button onClick={this.handleAddTask}>New Task</button>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    ) : (
+      <tr style={tableRow}>
+        <td style={td1}>
+          <a onClick={this.handleCancel}>Cancel</a>
+        </td>
+        <td>
+          <input
+            type="text" 
+            placeholder="Description"
+            value={this.state.description}
+            onChange={this.handleDescription}
+          />
+        </td>
+        <td>
+          <select value={this.state.selectedUser} onChange={this.handleSelectChange}>
+            <option value="" disabled={true} >Select Name</option>
+            {
+              this.state.users.map((user) => <option key={user.id} value={user.name}>{user.name}</option>)
+            }
+          </select>
+        </td>
+        <td style={td4}>
+          <a onClick={this.handleSaveTask}>Save</a>
+        </td>
+      </tr>
+    );
     return (
-      <div className="main" style={{width: '85%', margin: '20px auto'}}>
+      <div className="main" style={mainDiv}>
         <div style={{marginBottom: '50px'}}>
           <h3 style={{marginBottom: '5px'}}>Todo tasks</h3>
           <hr style={{marginBottom: 0}} />
@@ -134,22 +197,16 @@ export default class Tasks extends React.Component {
                       users={this.state.users}
                       handleCompletedTask={this.handleCompletedTask}
                       handleRemovedTask={this.handleRemovedTask}
+                      handleEditTask={this.handleEditTask}
                     />
                   );
                 })
               }
-              <tr>
-                <td style={td1}>
-                  <button style={button} onClick={this.handleAddTask}>New Task</button>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+              { addTask }
             </tbody>
           </table>
         </div>
-        <div>
+        <div  style={{marginBottom: '100px'}}>
           <h3 style={{marginBottom: '5px'}}>Completed tasks</h3>
           <hr style={{marginBottom: 0}} />
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
@@ -176,46 +233,3 @@ export default class Tasks extends React.Component {
   }
 }
 
-const TaskInProgress = (props) => {
-  const selectedUser = props.users.filter((user) => user.id === props.user)[0].name;
-  return (
-    <tr style={tableRow}>
-      <td style={td1}>
-        <a style={link} onClick={() => props.handleCompletedTask(props.taskId)}>
-          <span style={completed}>+</span>
-        </a>
-        <span style={{width: '10px', display: 'inline-block'}}></span>
-        <a style={link} onClick={() => props.handleRemovedTask(props.taskId)}>
-          <span style={remove}>-</span>
-        </a>
-      </td>
-      <td style={td2}>{props.title}</td>
-      <td style={td3}>
-        <Link to={`/user/${props.user}`}>
-          {selectedUser}
-        </Link>
-      </td>
-      <td style={td4}>
-        <a onClick={() => {
-          console.log('edit');
-        }}>Edit</a>
-      </td>
-    </tr>
-  );
-};
-
-const TaskCompleted = (props) => {
-  const selectedUser = props.users.filter((user) => user.id === props.user)[0].name;
-  return (
-    <tr style={tableRow}>
-      <td style={td1}>
-        <a style={link} onClick={() => props.handleRemovedTask(props.taskId)}>
-          <span style={remove}>-</span>
-        </a>
-      </td>
-      <td style={td2}>{props.title}</td>
-      <td style={td3}>{selectedUser}</td>
-      <td style={td4}></td>
-    </tr>
-  );
-};
