@@ -5,7 +5,7 @@ import TaskCompleted from '../components/TaskCompleted';
 import TaskInProgress from '../components/TaskInProgress';
 
 const mainDiv = {
-  width: '80%',
+  width: '75%',
   margin: '60px auto 120px auto',
   padding: '30px',
   background: '#fcfcfc',

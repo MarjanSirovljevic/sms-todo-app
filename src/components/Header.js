@@ -1,25 +1,39 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 
 const header = {
-  background: 'yellow',
+  background: '#3d75aa',
+  color: 'white',
   width: '100%',
   position: 'sticky',
   top: 0,
   zIndex: 1000,
   display: 'flex',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  height: '70px',
+  borderBottom: '3px solid coral',
+  padding: '0 50px'
 };
-
 const logo = {
-  padding: '10px'
+  border: '2px solid coral',
+  borderRadius: '50%',
+  margin: '10px',
+  width: 50,
+  height: 50,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
 };
+const logoContent = {
+  fontSize: '20px',
+  fontWeight: 'bold'
+}
 const nav = {
-  padding: '10px'
+  padding: '25px 0'
 };
 
 const loggedUserStyle = {
-  color: 'coral',
+  color: 'MediumSeaGreen',
   fontWeight: 'bold',
   marginRight: '25px'
 };
@@ -31,22 +45,22 @@ const Header = withRouter((props) => {
   if(!redirectToReferrer) {
     jsx = (
       <div style={nav}>
-        <Link to='/about'>About Us</Link>
+        <NavLink to='/about' activeClassName="nav-links">About Us</NavLink>
         <span style={{margin: '0 10px'}}>/</span>
-        <Link to="/login">Login</Link>
+        <NavLink to="/login" activeClassName="nav-links">Login</NavLink>
         <span style={{margin: '0 10px'}}>/</span>
-        <Link to="/register">Register</Link>
+        <NavLink to="/register" activeClassName="nav-links">Register</NavLink>
       </div>
     );
   }
   if(redirectToReferrer) {
     jsx = (
       <div style={nav}>
-        <Link to='/about'>About Us</Link>
+        <NavLink to='/about' activeClassName="nav-links">About Us</NavLink>
         <span style={{margin: '0 10px'}}>/</span>
-        <Link to="/tasks">Tasks</Link>
+        <NavLink to="/tasks" activeClassName="nav-links">Tasks</NavLink>
         <span style={{margin: '0 10px'}}>/</span>
-        <Link to="/users">Users</Link>
+        <NavLink to="/users" activeClassName="nav-links">Users</NavLink>
         <span style={{marginLeft: '25px'}}>Welcome, <span style={loggedUserStyle}>{loggedUser.username}</span></span>
         <a onClick={() => {
           props.handleSignOut(() => {
@@ -62,9 +76,9 @@ const Header = withRouter((props) => {
     );
   }
   return (
-    <header id="top" style={header}>
+    <header id="top" style={header} className="header">
       <div style={logo}>
-        <Link to="/">Home</Link>
+        <NavLink to="/" activeClassName="nav-links" exact style={logoContent}>SMS</NavLink>
       </div>
       {
         jsx

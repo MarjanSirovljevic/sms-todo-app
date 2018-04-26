@@ -36,3 +36,14 @@ input[type="submit"]:hover {
 li {
   padding: 2px 0;
 }
+
+.header a {
+  text-decoration: none;  
+  color: white;
+}
+
+
+.header .nav-links {
+  color: coral;
+  font-weight: bold;
+}
