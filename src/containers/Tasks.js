@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const mainDiv = {
+  width: '85%', 
+  margin: '20px auto'
+};
 const link = {
   textAlign: 'center',
   textDecoration: 'none'
@@ -39,11 +43,6 @@ const td4 = {
   padding: '6px 0',
   textAlign: 'center',
   width: '65px'
-};
-const button = {
-  background: 'white',
-  padding: '6px',
-  border: '1px solid green'
 };
 
 export default class Tasks extends React.Component {
@@ -115,7 +114,7 @@ export default class Tasks extends React.Component {
   }
   render() {
     return (
-      <div className="main" style={{width: '85%', margin: '20px auto'}}>
+      <div className="main" style={mainDiv}>
         <div style={{marginBottom: '50px'}}>
           <h3 style={{marginBottom: '5px'}}>Todo tasks</h3>
           <hr style={{marginBottom: 0}} />
@@ -138,7 +137,7 @@ export default class Tasks extends React.Component {
               }
               <tr>
                 <td style={td1}>
-                  <button style={button} onClick={this.handleAddTask}>New Task</button>
+                  <button onClick={this.handleAddTask}>New Task</button>
                 </td>
                 <td></td>
                 <td></td>

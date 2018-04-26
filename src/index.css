@@ -20,6 +20,15 @@ a:hover {
   cursor: pointer;
 }
 
-button:hover {
+button,
+input[type="submit"] {
+  border: none;
+  background: white;
+  padding: 6px;
+  border: 1px solid green;
+}
+
+button:hover,
+input[type="submit"]:hover {
   cursor: pointer;
 }
