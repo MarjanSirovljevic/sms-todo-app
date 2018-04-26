@@ -73,7 +73,7 @@ export default class Login extends React.Component {
   }
   render() {
     if(this.props.redirectToReferrer) {
-      return <Redirect to="/tasks"/>
+      return <Redirect to="/users"/>
     }
     else {
       return (
