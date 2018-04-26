@@ -7,7 +7,7 @@ const about_us = {
   width: '480px',
   margin: '60px auto',
   padding: '30px',
-  background: '#f5f5f5',
+  background: '#fcfcfc',
   boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
 };
 

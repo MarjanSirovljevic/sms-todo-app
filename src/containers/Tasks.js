@@ -5,8 +5,11 @@ import TaskCompleted from '../components/TaskCompleted';
 import TaskInProgress from '../components/TaskInProgress';
 
 const mainDiv = {
-  width: '85%', 
-  margin: '20px auto'
+  width: '80%',
+  margin: '60px auto 120px auto',
+  padding: '30px',
+  background: '#fcfcfc',
+  boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
 };
 const tableRow = {
   borderBottom: '1px dotted grey',
@@ -127,7 +130,7 @@ export default class Tasks extends React.Component {
         const existingTodos = json.filter((todo) => {
           return usersList.indexOf(todo.userId.toString()) >= 0;
         });
-        const reducedTodos = existingTodos.filter((todo, index) => index % 5 === 0);
+        const reducedTodos = existingTodos.filter((todo, index) => index % 10 === 0);
         const todos = reducedTodos.map((todo) => {
           return {...todo, userId: todo.userId.toString(), id: todo.id.toString()}
         });
