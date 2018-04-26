@@ -58,7 +58,6 @@ export default class Tasks extends React.Component {
     };
   }
   handleCompletedTask(taskId) {
-    // console.log('task completed - ', taskId);
     this.setState((prevState) => ({
       todos: prevState.todos.map((todo) => {
         if (todo.id === taskId) {
@@ -70,7 +69,6 @@ export default class Tasks extends React.Component {
     }));
   }
   handleRemovedTask(taskId) {
-    // console.log('task removed - ', taskId);
     this.setState((prevState) => ({
       todos: prevState.todos.filter((todo) => todo.id !== taskId)
     }));
@@ -149,7 +147,7 @@ export default class Tasks extends React.Component {
             </tbody>
           </table>
         </div>
-        <div>
+        <div  style={{marginBottom: '100px'}}>
           <h3 style={{marginBottom: '5px'}}>Completed tasks</h3>
           <hr style={{marginBottom: 0}} />
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
