@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import uuid from 'uuid';
 
 const mainDiv = {
   width: '85%', 
@@ -51,9 +52,16 @@ export default class Tasks extends React.Component {
     this.handleCompletedTask = this.handleCompletedTask.bind(this);
     this.handleRemovedTask = this.handleRemovedTask.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleDescription = this.handleDescription.bind(this);
+    this.handleSaveTask = this.handleSaveTask.bind(this);
     this.state = {
       todos: [],
-      users: []
+      users: [],
+      addUserMode: false,
+      description: '',
+      selectedUser: ''
     };
   }
   handleCompletedTask(taskId) {
@@ -73,7 +81,40 @@ export default class Tasks extends React.Component {
     }));
   }
   handleAddTask() {
-    console.log('add new task');
+    this.setState(() => ({addUserMode: true}));
+  }
+  handleCancel() {
+    this.setState(() => ({
+      addUserMode: false,
+      description: '',
+      selectedUser: ''
+    }));
+  }
+  handleDescription(e) {
+    const description = e.target.value;
+    this.setState(() => ({ description }));
+  }
+  handleSelectChange(e) {
+    const selectedUser = e.target.value;
+    this.setState(() => ({ selectedUser }));
+  }
+  handleSaveTask() {
+    const { description, selectedUser } = this.state;
+    if(!description || !selectedUser) { return; }
+    const matchingUser = this.state.users.filter((user) => user.name === selectedUser)[0];
+    const selectedUserId = matchingUser.id;
+    const newTask = {
+      completed: false,
+      id: uuid(),
+      title: description,
+      userId: selectedUserId
+    };
+    this.setState((prevState) => ({
+      todos: [...prevState.todos, newTask],
+      addUserMode: true,
+      description: '',
+      selectedUser: ''
+    }));
   }
   componentWillMount() {
     try {
@@ -113,6 +154,42 @@ export default class Tasks extends React.Component {
     }
   }
   render() {
+    const addTask = !this.state.addUserMode ?
+    (
+      <tr>
+        <td style={td1}>
+          <button onClick={this.handleAddTask}>New Task</button>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    ) : (
+      <tr>
+      <td style={td1}>
+          <a onClick={this.handleCancel}>Cancel</a>
+        </td>
+        <td>
+          <input
+            type="text" 
+            placeholder="Description"
+            value={this.state.description}
+            onChange={this.handleDescription}
+          />
+        </td>
+        <td>
+          <select value={this.state.selectedUser} onChange={this.handleSelectChange}>
+            <option value="" disabled={true} >Select Name</option>
+            {
+              this.state.users.map((user) => <option key={user.id} value={user.name}>{user.name}</option>)
+            }
+          </select>
+        </td>
+        <td style={td4}>
+          <a onClick={this.handleSaveTask}>Save</a>
+        </td>
+      </tr>
+    );
     return (
       <div className="main" style={mainDiv}>
         <div style={{marginBottom: '50px'}}>
@@ -135,14 +212,7 @@ export default class Tasks extends React.Component {
                   );
                 })
               }
-              <tr>
-                <td style={td1}>
-                  <button onClick={this.handleAddTask}>New Task</button>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+              { addTask }
             </tbody>
           </table>
         </div>
@@ -193,9 +263,7 @@ const TaskInProgress = (props) => {
         </Link>
       </td>
       <td style={td4}>
-        <a onClick={() => {
-          console.log('edit');
-        }}>Edit</a>
+        <a onClick={() => console.log('edit')}>Edit</a>
       </td>
     </tr>
   );
