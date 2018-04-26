@@ -8,7 +8,10 @@ const mainDiv = {
   width: '85%', 
   margin: '20px auto'
 };
-
+const tableRow = {
+  borderBottom: '1px dotted grey',
+  height: '40px'
+};
 const td1 = {
   padding: '6px 0',
   textAlign: 'center',
@@ -25,6 +28,7 @@ export default class Tasks extends React.Component {
     super(props);
     this.handleCompletedTask = this.handleCompletedTask.bind(this);
     this.handleRemovedTask = this.handleRemovedTask.bind(this);
+    this.handleEditTask = this.handleEditTask.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -52,6 +56,17 @@ export default class Tasks extends React.Component {
   handleRemovedTask(taskId) {
     this.setState((prevState) => ({
       todos: prevState.todos.filter((todo) => todo.id !== taskId)
+    }));
+  }
+  handleEditTask(modifiedTask) {
+    this.setState((prevState) => ({
+      todos: prevState.todos.map((todo) => {
+        if(todo.id === modifiedTask.id) {
+          return {...todo, ...modifiedTask};
+        } else {
+          return todo;
+        }
+      }),
     }));
   }
   handleAddTask() {
@@ -130,7 +145,7 @@ export default class Tasks extends React.Component {
   render() {
     const addTask = !this.state.addTaskMode ?
     (
-      <tr>
+      <tr style={tableRow}>
         <td style={td1}>
           <button onClick={this.handleAddTask}>New Task</button>
         </td>
@@ -139,8 +154,8 @@ export default class Tasks extends React.Component {
         <td></td>
       </tr>
     ) : (
-      <tr>
-      <td style={td1}>
+      <tr style={tableRow}>
+        <td style={td1}>
           <a onClick={this.handleCancel}>Cancel</a>
         </td>
         <td>
@@ -182,6 +197,7 @@ export default class Tasks extends React.Component {
                       users={this.state.users}
                       handleCompletedTask={this.handleCompletedTask}
                       handleRemovedTask={this.handleRemovedTask}
+                      handleEditTask={this.handleEditTask}
                     />
                   );
                 })

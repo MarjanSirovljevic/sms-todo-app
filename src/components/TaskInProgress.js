@@ -44,9 +44,61 @@ const td4 = {
 export default class TaskInProgress extends React.Component {
   constructor(props) {
     super(props);
+    this.handleEditTask = this.handleEditTask.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleDescription = this.handleDescription.bind(this);
+    this.handleSaveTask = this.handleSaveTask.bind(this);
+
     this.state = {
-      inEditMode: false
+      inEditMode: false,
+      description: '',
+      selectedUser: ''
     }
+  }
+  handleEditTask() {
+    const matchingUser = this.props.users.filter((user) => user.id === this.props.user)[0];
+    const mathchingUserName = matchingUser.name;
+    this.setState(() => ({
+      inEditMode: true,
+      description: this.props.title,
+      selectedUser: mathchingUserName
+    }));
+  }
+  handleSelectChange(e) {
+    const selectedUser = e.target.value;
+    this.setState(() => ({ selectedUser }));
+  }
+  handleCancel() {
+    this.setState(() => ({
+      inEditMode: false,
+      description: '',
+      selectedUser: ''
+    }));
+  }
+  handleDescription(e) {
+    const description = e.target.value;
+    this.setState(() => ({ description }));
+  }
+  handleSaveTask() {
+    const { description, selectedUser } = this.state;
+    if(!description || !selectedUser) { return; }
+
+    const matchingUser = this.props.users.filter((user) => user.name === selectedUser)[0];
+    const selectedUserId = matchingUser.id;
+
+    const modifiedTask = {
+      completed: false,
+      id: this.props.taskId,
+      title: this.state.description,
+      userId: selectedUserId
+    };
+    this.setState(() => ({
+      inEditMode: false,
+      description: '',
+      selectedUser: ''
+    }));
+    this.props.handleEditTask(modifiedTask);
   }
   render() {
     const selectedUser = this.props.users.filter((user) => user.id === this.props.user)[0].name;
@@ -68,11 +120,36 @@ export default class TaskInProgress extends React.Component {
           </Link>
         </td>
         <td style={td4}>
-          <a onClick={() => console.log('edit')}>Edit</a>
+          <a onClick={this.handleEditTask}>Edit</a>
         </td>
       </tr>
     );
-    const editMode = null;
+    const editMode = (
+      <tr style={tableRow}>
+      <td style={td1}>
+        <a onClick={this.handleCancel}>Cancel</a>
+      </td>
+      <td>
+        <input
+          type="text" 
+          placeholder="Description"
+          value={this.state.description}
+          onChange={this.handleDescription}
+          style={{width: '80%'}}
+        />
+      </td>
+      <td>
+        <select value={this.state.selectedUser} onChange={this.handleSelectChange}>
+          {
+            this.props.users.map((user) => <option key={user.id} value={user.name}>{user.name}</option>)
+          }
+        </select>
+      </td>
+      <td style={td4}>
+        <a onClick={this.handleSaveTask}>Save</a>
+      </td>
+    </tr>
+    );
     return !this.state.inEditMode ? presentationMode : editMode;
   }
 }
