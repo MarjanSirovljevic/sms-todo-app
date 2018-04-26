@@ -4,6 +4,24 @@ import { Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import Input from '../components/Input';
 
+const mainDiv = {
+  width: '500px',
+  margin: '60px auto',
+  padding: '30px',
+  background: '#fcfcfc',
+  boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
+};
+const hr1 = {
+  height: '5px',
+  background: '#3d75aa',
+  marginBottom: '30px'
+};
+const hr2 = {
+  height: '5px',
+  background: '#3d75aa',
+  marginTop: '40px'
+};
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -77,8 +95,9 @@ export default class Login extends React.Component {
     }
     else {
       return (
-        <div className="main">
-          <h1>Login Page</h1>
+        <div className="main" style={mainDiv}>
+          <h1 style={{marginBottom: '5px'}}>Login Page</h1>
+          <hr style={hr1}/>
           {!this.state.isValid && <p style={{color: 'red'}}>{this.state.errorMessage}</p>}
           <Input
             type="text"
@@ -94,6 +113,7 @@ export default class Login extends React.Component {
             label="Password"
             handleChange={this.handleChange}
           />
+          <hr style={hr2}/>
           <Button onClick={this.login} name="Login" />
         </div>
       );

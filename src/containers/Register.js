@@ -6,6 +6,24 @@ import uuid from 'uuid';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
+const mainDiv = {
+  width: '500px',
+  margin: '60px auto',
+  padding: '30px',
+  background: '#fcfcfc',
+  boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
+};
+const hr1 = {
+  height: '5px',
+  background: '#3d75aa',
+  marginBottom: '30px'
+};
+const hr2 = {
+  height: '5px',
+  background: '#3d75aa',
+  marginTop: '40px'
+};
+
 export default class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -129,8 +147,9 @@ export default class Register extends React.Component {
     }
     else {
       return (
-        <div className="main">
-          <h1>Register Page</h1>
+        <div className="main" style={mainDiv}>
+          <h1 style={{marginBottom: '5px'}}>Register Page</h1>
+          <hr style={hr1}/>
             {!this.state.isValid && <p style={{color: 'red'}}>{this.state.errorMessage}</p>}
           <Input
             type="text"
@@ -168,6 +187,7 @@ export default class Register extends React.Component {
             handleValidate={this.validatePasswordConfirmed}
             handleChange={this.handleChange}
           />
+          <hr style={hr2}/>
           <Button
             name="Register"
             onClick={this.register}

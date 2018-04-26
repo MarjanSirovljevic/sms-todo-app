@@ -29,8 +29,12 @@ const detailsInfo = {
   fontSize: '16px'
 };
 const para = {
+  margin: '3px 30px'
+};
+const para1 = {
   margin: '3px 30px',
-  fontStyle: 'italic'
+  color: '#3d75aa',
+  fontWeight: 'bold'
 };
 
 const AboutUs = () => (
@@ -50,8 +54,8 @@ const Details = (props) => {
         <img src={props.src} style={img}/>
       </div>
       <div style={detailsInfo}>
+        <p style={para1}>{props.name}</p>
         <p style={para}>Front-End Developer</p>
-        <p style={para}>{props.name}</p>
         <p style={para}>{props.email}</p>
       </div>
     </div>
