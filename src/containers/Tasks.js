@@ -5,11 +5,14 @@ import TaskCompleted from '../components/TaskCompleted';
 import TaskInProgress from '../components/TaskInProgress';
 
 const mainDiv = {
-  width: '85%', 
-  margin: '20px auto'
+  width: '75%',
+  margin: '60px auto 120px auto',
+  padding: '30px',
+  background: '#fcfcfc',
+  boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
 };
 const tableRow = {
-  borderBottom: '1px dotted grey',
+  borderBottom: '1px solid lightblue',
   height: '40px'
 };
 const td1 = {
@@ -21,6 +24,10 @@ const td4 = {
   padding: '6px 0',
   textAlign: 'center',
   width: '65px'
+};
+const hr = {
+  height: '5px',
+  background: '#3d75aa'
 };
 
 export default class Tasks extends React.Component {
@@ -100,7 +107,7 @@ export default class Tasks extends React.Component {
     };
     this.setState((prevState) => ({
       todos: [...prevState.todos, newTask],
-      addTaskMode: true,
+      addTaskMode: false,
       description: '',
       selectedUser: ''
     }));
@@ -127,7 +134,7 @@ export default class Tasks extends React.Component {
         const existingTodos = json.filter((todo) => {
           return usersList.indexOf(todo.userId.toString()) >= 0;
         });
-        const reducedTodos = existingTodos.filter((todo, index) => index % 5 === 0);
+        const reducedTodos = existingTodos.filter((todo, index) => index % 10 === 0);
         const todos = reducedTodos.map((todo) => {
           return {...todo, userId: todo.userId.toString(), id: todo.id.toString()}
         });
@@ -183,7 +190,7 @@ export default class Tasks extends React.Component {
       <div className="main" style={mainDiv}>
         <div style={{marginBottom: '50px'}}>
           <h3 style={{marginBottom: '5px'}}>Todo tasks</h3>
-          <hr style={{marginBottom: 0}} />
+          <hr style={hr} />
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
             <tbody>
               {
@@ -206,9 +213,9 @@ export default class Tasks extends React.Component {
             </tbody>
           </table>
         </div>
-        <div  style={{marginBottom: '100px'}}>
+        <div  style={{marginBottom: '50px'}}>
           <h3 style={{marginBottom: '5px'}}>Completed tasks</h3>
-          <hr style={{marginBottom: 0}} />
+          <hr style={hr} />
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
             <tbody>
               {

@@ -1,13 +1,16 @@
 import React from 'react';
 
 const footer = {
-  background: 'yellow',
+  background: '#3d75aa',
+  color: 'white',
   width: '100%',
   position: 'fixed',
   bottom: 0,
   zIndex: 1000,
   textAlign: 'center',
-  padding: '5px 0'
+  padding: '5px 0',
+  height: '70px',
+  borderTop: '3px solid coral',
 };
 
 const Footer = () => (

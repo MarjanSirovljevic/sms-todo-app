@@ -1,7 +1,15 @@
 import React from 'react';
 
+const mainDiv = {
+  width: '500px',
+  margin: '60px auto',
+  padding: '30px',
+  background: '#fcfcfc',
+  boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
+};
+
 const Home = () => (
-  <div className="main">
+  <div className="main" style={mainDiv}>
     <h1>SMS To-Do </h1>
       <h2>Time to organize your work</h2>
         <p>with this app for getting things done</p>

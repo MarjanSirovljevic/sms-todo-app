@@ -5,7 +5,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: Calibri, sans-serif;
 }
 
 .main {
@@ -25,10 +25,25 @@ input[type="submit"] {
   border: none;
   background: white;
   padding: 6px;
-  border: 1px solid green;
+  border: 1px solid #3d75aa;
 }
 
 button:hover,
 input[type="submit"]:hover {
   cursor: pointer;
+}
+
+li {
+  padding: 2px 0;
+}
+
+.header a {
+  text-decoration: none;  
+  color: white;
+}
+
+
+.header .nav-links {
+  color: coral;
+  font-weight: bold;
 }

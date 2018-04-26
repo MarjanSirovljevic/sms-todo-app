@@ -20,7 +20,7 @@ const remove = {
   background: 'lightgrey'
 };
 const tableRow = {
-  borderBottom: '1px dotted grey',
+  borderBottom: '1px solid lightblue',
   height: '40px'
 };
 const td1 = {

@@ -3,8 +3,16 @@ import { Link } from 'react-router-dom';
 
 import Button from '../components/Button';
 
-const cellStyleTH = {background: 'palegreen', padding: '10px 15px', textAlign: 'left'};
-const cellStyleTD = {background: '#f0f0f0', padding: '5px 15px'};
+const mainDiv = {
+  width: '750px',
+  margin: '60px auto',
+  padding: '30px',
+  background: '#fcfcfc',
+  boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
+};
+
+const cellStyleTH = {padding: '10px 15px', textAlign: 'left', background: '#3d75aa', color: 'white'};
+const cellStyleTD = {padding: '5px 15px'};
 
 export default class Users extends React.Component {
   constructor(props){
@@ -64,9 +72,8 @@ export default class Users extends React.Component {
   render(){
     // console.log(this.props);
     return(
-      <div style={{margin: '20px auto'}}>
-        <h1>Users List</h1>
-        <table style={{marginBottom: '20px'}}>
+      <div style={mainDiv}>
+        <table style={{width: '100%', margin: '10px auto'}}>
           <thead>
             <tr>
               <th style={cellStyleTH}>Full name</th>
