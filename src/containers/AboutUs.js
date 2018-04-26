@@ -4,8 +4,11 @@ import vladan from '../assets/vladan.jpg';
 import marjan from '../assets/marjan.jpg';
 
 const about_us = {
-  width: '60%',
-  margin: '50px auto'
+  width: '480px',
+  margin: '60px auto',
+  padding: '30px',
+  background: '#f5f5f5',
+  boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
 };
 
 const details = {
@@ -18,15 +21,15 @@ const img = {
   borderRadius: '50%',
   border: '2px solid black',
   flex: 0,
-  height: '180px'
+  height: '125px'
 };
 const detailsInfo = {
   flex: 1,
   textAlign: 'left',
-  fontSize: '20px'
+  fontSize: '16px'
 };
 const para = {
-  margin: '10px 35px',
+  margin: '3px 30px',
   fontStyle: 'italic'
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const mainDiv = {
-  width: '50%',
+  width: '480px',
   margin: '60px auto',
   padding: '30px',
   background: '#f5f5f5',
