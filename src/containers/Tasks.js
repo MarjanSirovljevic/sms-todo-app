@@ -100,7 +100,7 @@ export default class Tasks extends React.Component {
     };
     this.setState((prevState) => ({
       todos: [...prevState.todos, newTask],
-      addTaskMode: true,
+      addTaskMode: false,
       description: '',
       selectedUser: ''
     }));
