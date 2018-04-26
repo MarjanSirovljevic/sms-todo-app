@@ -33,7 +33,7 @@ export default class Tasks extends React.Component {
     this.state = {
       todos: [],
       users: [],
-      addUserMode: false,
+      addTaskMode: false,
       description: '',
       selectedUser: ''
     };
@@ -55,11 +55,11 @@ export default class Tasks extends React.Component {
     }));
   }
   handleAddTask() {
-    this.setState(() => ({addUserMode: true}));
+    this.setState(() => ({addTaskMode: true}));
   }
   handleCancel() {
     this.setState(() => ({
-      addUserMode: false,
+      addTaskMode: false,
       description: '',
       selectedUser: ''
     }));
@@ -85,7 +85,7 @@ export default class Tasks extends React.Component {
     };
     this.setState((prevState) => ({
       todos: [...prevState.todos, newTask],
-      addUserMode: true,
+      addTaskMode: true,
       description: '',
       selectedUser: ''
     }));
@@ -128,7 +128,7 @@ export default class Tasks extends React.Component {
     }
   }
   render() {
-    const addTask = !this.state.addUserMode ?
+    const addTask = !this.state.addTaskMode ?
     (
       <tr>
         <td style={td1}>
