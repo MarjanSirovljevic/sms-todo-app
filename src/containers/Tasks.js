@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import uuid from 'uuid';
 
+import TaskCompleted from '../components/TaskCompleted';
+
 const mainDiv = {
   width: '85%', 
   margin: '20px auto'
@@ -138,7 +140,7 @@ export default class Tasks extends React.Component {
         const existingTodos = json.filter((todo) => {
           return usersList.indexOf(todo.userId.toString()) >= 0;
         });
-        const reducedTodos = existingTodos.filter((todo, index) => index % 11 === 0);
+        const reducedTodos = existingTodos.filter((todo, index) => index % 5 === 0);
         const todos = reducedTodos.map((todo) => {
           return {...todo, userId: todo.userId.toString(), id: todo.id.toString()}
         });
@@ -265,22 +267,6 @@ const TaskInProgress = (props) => {
       <td style={td4}>
         <a onClick={() => console.log('edit')}>Edit</a>
       </td>
-    </tr>
-  );
-};
-
-const TaskCompleted = (props) => {
-  const selectedUser = props.users.filter((user) => user.id === props.user)[0].name;
-  return (
-    <tr style={tableRow}>
-      <td style={td1}>
-        <a style={link} onClick={() => props.handleRemovedTask(props.taskId)}>
-          <span style={remove}>-</span>
-        </a>
-      </td>
-      <td style={td2}>{props.title}</td>
-      <td style={td3}>{selectedUser}</td>
-      <td style={td4}></td>
     </tr>
   );
 };
