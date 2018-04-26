@@ -4,7 +4,7 @@ import vladan from '../assets/vladan.jpg';
 import marjan from '../assets/marjan.jpg';
 
 const about_us = {
-  width: '480px',
+  width: '500px',
   margin: '60px auto',
   padding: '30px',
   background: '#fcfcfc',

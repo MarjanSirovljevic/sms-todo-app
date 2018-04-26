@@ -12,7 +12,7 @@ const mainDiv = {
   boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
 };
 const tableRow = {
-  borderBottom: '1px dotted grey',
+  borderBottom: '1px solid lightblue',
   height: '40px'
 };
 const td1 = {
@@ -24,6 +24,10 @@ const td4 = {
   padding: '6px 0',
   textAlign: 'center',
   width: '65px'
+};
+const hr = {
+  height: '5px',
+  background: '#3d75aa'
 };
 
 export default class Tasks extends React.Component {
@@ -186,7 +190,7 @@ export default class Tasks extends React.Component {
       <div className="main" style={mainDiv}>
         <div style={{marginBottom: '50px'}}>
           <h3 style={{marginBottom: '5px'}}>Todo tasks</h3>
-          <hr style={{marginBottom: 0}} />
+          <hr style={hr} />
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
             <tbody>
               {
@@ -211,7 +215,7 @@ export default class Tasks extends React.Component {
         </div>
         <div  style={{marginBottom: '50px'}}>
           <h3 style={{marginBottom: '5px'}}>Completed tasks</h3>
-          <hr style={{marginBottom: 0}} />
+          <hr style={hr} />
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
             <tbody>
               {

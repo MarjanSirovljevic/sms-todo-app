@@ -3,6 +3,18 @@ import uuid from 'uuid';
 
 import Input from '../components/Input';
 
+const mainDiv = {
+  width: '500px',
+  margin: '60px auto',
+  padding: '30px',
+  background: '#fcfcfc',
+  boxShadow: '0 0 10px rgba(100, 100, 100, 0.3)'
+};
+const hr = {
+  height: '5px',
+  background: '#3d75aa'
+};
+
 export default class AddUser extends React.Component {
   constructor(props) {
     super(props);
@@ -82,12 +94,11 @@ export default class AddUser extends React.Component {
   }
   render() {
     return (
-      <div className="main" style={{width: '70%', margin: '20px auto', background: 'lightgrey', padding: '40px'}}>
-        <h1 style={{ margin: 0}}>Add New User</h1>
+      <div className="main" style={mainDiv}>
+        <h1 style={{ margin: 0}}>New User</h1>
         <form onSubmit={this.handleSubmit}>
           <div>
-            <h3>Basic details</h3>
-            <hr />
+            <hr style={hr}/>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
               <div>
                 <Input
@@ -131,8 +142,8 @@ export default class AddUser extends React.Component {
             </div>
           </div>
           <div>
-            <h3>Address</h3>
-            <hr />
+            <h3 style={{marginBottom: '5px'}}>Address</h3>
+            <hr style={hr}/>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
               <div>
                 <Input
@@ -168,8 +179,8 @@ export default class AddUser extends React.Component {
               </div>
             </div>
           </div>
-          <hr />
-          <input type="submit" value="Add new user"/>
+          <hr style={hr}/>
+          <input type="submit" value="Submit"/>
           {this.state.errorMessage && <p style={{color: 'red'}}>{this.state.errorMessage}</p>}
         </form>
       </div>

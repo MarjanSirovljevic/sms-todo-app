@@ -73,7 +73,7 @@ export default class Users extends React.Component {
     // console.log(this.props);
     return(
       <div style={mainDiv}>
-        <table style={{marginBottom: '20px'}}>
+        <table style={{width: '100%', margin: '10px auto'}}>
           <thead>
             <tr>
               <th style={cellStyleTH}>Full name</th>
