@@ -209,7 +209,7 @@ export default class Tasks extends React.Component {
             </tbody>
           </table>
         </div>
-        <div  style={{marginBottom: '100px'}}>
+        <div  style={{marginBottom: '50px'}}>
           <h3 style={{marginBottom: '5px'}}>Completed tasks</h3>
           <hr style={{marginBottom: 0}} />
           <table style={{width: '100%', borderCollapse: 'collapse'}}>
